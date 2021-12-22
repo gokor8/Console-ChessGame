@@ -48,24 +48,44 @@ namespace ChessGameLibrary.FieldFactory.Fields
 
         public IFigure[,] GetField()
         {
-            setFigures(whiteFigures);
-            setFigures(blackFigures);
+            setFigures(whiteFigures, FiguresType.White);
+            setFigures(blackFigures, FiguresType.Black);
+            FillNullPixels(field);
 
             return field;
         }
 
-        private void setFigures(List<IFigure> figures)
+        private void setFigures(List<IFigure> figures, FiguresType figuresType)
         {
-            for (int y = 0; y < field.GetLength(0); y++)
+            for (int y = (int)figuresType-2; y < (int)figuresType; y++)
             {
                 for (int x = 0; x < field.GetLength(1); x++)
+                {
                     if (y == 0 || y == field.GetLength(0) - 1)
                     {
-                        var figure = baseFigures.First(f => f.triggers.Any(t => t == x));
-                        figure.PostitionX = g;
-                        figure.PostitionY = x;
+                        IFigure figure;
+                        int index;
 
-                        figures.Add(figure);
+                        if (x == 3 || x == 4)
+                        {
+                            figure = figures.First(f => f.triggers.Any(t => t == x)).CreateColne();
+
+                            index = figures.FindIndex(s => s == figure);
+                        }
+                        else
+                        {
+                            index = -1;
+                            figure = baseFigures.First(f => f.triggers.Any(t => t == x)).CreateColne();
+                        }
+
+                        figure.PostitionX = x;
+                        figure.PostitionY = y;
+
+                        if (index != -1)
+                            figures[index] = figure;
+                        else
+                            figures.Add(figure);
+
                         field[y, x] = figure;
                     }
                     else if (y == 1 || y == field.GetLength(0) - 2)
@@ -77,7 +97,16 @@ namespace ChessGameLibrary.FieldFactory.Fields
                         figures.Add(pawn);
                         field[y, x] = pawn;
                     }
+                }
             }
+        }
+
+        public void FillNullPixels(IFigure[,] figures)
+        {
+            for (int y = 0; y < figures.GetLength(0); y++)
+                for (int x = 0; x < figures.GetLength(1); x++)
+                    if (field[y, x] is null)
+                        field[y, x] = new EmptyPoint();
         }
     }
 }

@@ -11,12 +11,12 @@ namespace ChessGameLibrary
         public Player1 player1 = new Player1();
         public Player2 player2 = new Player2();
         public IFigure[,] boardField { get; private set; }
-        IField field;
+        IField gamefield;
 
         public GameBoard()
         {
-            field = new DefaultFactoryField().CreateField(player1.figures, player2.figures);
-            boardField = field.GetField();
+            gamefield = new DefaultFactoryField().CreateField(player1.figures, player2.figures);
+            boardField = gamefield.GetField();
         }
 
         public GameBoard SetPlayersName()
@@ -34,13 +34,29 @@ namespace ChessGameLibrary
         {
             while(canPlay)
             {
-                 
+                PrintField();
             }
         }
 
-        public void PrintField()
+        public string PrintField()
         {
-           // for(int i = 0; i< )
+            string field = "";
+            var fieldArray = gamefield.GetField();
+
+            for(int y = 0; y < fieldArray.GetLength(0); y++)
+            {
+                for(int x =0; x < fieldArray.GetLength(1); x++)
+                {
+                    field += $"|{fieldArray[y,x].figureChar}|";
+                }
+                field += "\r\n";
+                for(int x = 0;x < fieldArray.GetLength(1); x++)
+                    field += "----";
+
+                field += "\r\n";
+            }
+
+            return field;
         }
     }
 }

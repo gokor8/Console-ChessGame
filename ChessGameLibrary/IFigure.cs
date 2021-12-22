@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ChessGameLibrary.FieldFactory;
 
 namespace ChessGameLibrary
 {
-    public interface IFigure
+    public interface IFigure : ICloneableFigure
     {
         int[] triggers { get; }
         int PostitionX { get; set; }

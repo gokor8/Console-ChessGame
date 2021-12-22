@@ -6,8 +6,23 @@ using System.Threading.Tasks;
 
 namespace ChessGameLibrary.Figures
 {
-    class EmptyPoint
+    public class EmptyPoint : IFigure
     {
-        public char figureChar => ' ';
+        public char figureChar => '☆';
+
+        public int[] triggers { get; private set; } = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+        public int PostitionX { get; set; }
+        public int PostitionY { get; set; }
+
+        public IFigure CreateColne()
+        {
+            return new EmptyPoint();
+        }
+
+        public void TryGoMotion()
+        {
+            
+        }
     }
 }
