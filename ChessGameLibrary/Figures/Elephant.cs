@@ -14,7 +14,8 @@ namespace ChessGameLibrary.Figures
         }
         public int[] triggers { get; private set; }
         public char figureChar => '♖';
-
+        public int PostitionX { get; set; }
+        public int PostitionY { get; set; }
         public void TryGoMotion()
         {
 

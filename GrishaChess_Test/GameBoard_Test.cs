@@ -24,7 +24,7 @@ namespace GrishaChess_Test
         {
             GameBoard gameBoard = new GameBoard();
 
-            Assert.True(gameBoard.player1.figures != null && gameBoard.player1.Name != null);
+            Assert.True(gameBoard.player1.figures.Count == 16 && gameBoard.player1.Name != null);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace GrishaChess_Test
         {
             GameBoard gameBoard = new GameBoard();
 
-            Assert.True(gameBoard.player2.figures != null && gameBoard.player2.Name != null);
+            Assert.True(gameBoard.player2.figures.Count != 16 && gameBoard.player2.Name != null);
         }
     }
 }

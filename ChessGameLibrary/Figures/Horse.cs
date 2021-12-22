@@ -13,6 +13,8 @@ namespace ChessGameLibrary.Figures
             this.triggers = triggers;
         }
         public int[] triggers { get; private set; }
+        public int PostitionX { get; set; }
+        public int PostitionY { get; set; }
         public char figureChar => '♘';
 
         public void TryGoMotion()

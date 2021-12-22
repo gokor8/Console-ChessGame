@@ -9,6 +9,8 @@ namespace ChessGameLibrary
     public interface IFigure
     {
         int[] triggers { get; }
+        int PostitionX { get; set; }
+        int PostitionY { get; set; }
         char figureChar { get; }
 
         void TryGoMotion();

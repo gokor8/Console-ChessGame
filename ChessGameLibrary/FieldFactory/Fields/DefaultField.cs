@@ -11,6 +11,9 @@ namespace ChessGameLibrary.FieldFactory.Fields
     {
         public List<IFigure> whiteFigures { get; private set; }
         public List<IFigure> blackFigures { get; private set; }
+
+        List<IFigure> baseFigures;
+
         IFigure[,] field;
 
         public DefaultField(IFigure[,] field, List<IFigure> player1Figures, List<IFigure> player2Figures)
@@ -23,7 +26,7 @@ namespace ChessGameLibrary.FieldFactory.Fields
 
         void InitializeFigures()
         {
-            List<IFigure> generalFigures = new List<IFigure>()
+            baseFigures = new List<IFigure>()
             {
                 new Rook(2,field.GetLength(1)-3),
                 new Elephant(0,field.GetLength(1)-1),
@@ -35,14 +38,12 @@ namespace ChessGameLibrary.FieldFactory.Fields
                 new King(4),
                 new Queen(3)
             });
-            whiteFigures.AddRange(generalFigures);
 
             blackFigures.AddRange(new List<IFigure>()
             {
                 new King(3),
                 new Queen(4)
             });
-            blackFigures.AddRange(generalFigures);
         }
 
         public IFigure[,] GetField()
@@ -55,15 +56,27 @@ namespace ChessGameLibrary.FieldFactory.Fields
 
         private void setFigures(List<IFigure> figures)
         {
-            for (int i = 0; i < field.GetLength(0); i++)
+            for (int y = 0; y < field.GetLength(0); y++)
             {
-                for (int j = 0; j < field.GetLength(1); j++)
-                    if (i == 0 || i == field.GetLength(0) - 1)
+                for (int x = 0; x < field.GetLength(1); x++)
+                    if (y == 0 || y == field.GetLength(0) - 1)
                     {
-                        field[i, j] = figures.First(f => f.triggers.Any(t => t == j));
+                        var figure = baseFigures.First(f => f.triggers.Any(t => t == x));
+                        figure.PostitionX = g;
+                        figure.PostitionY = x;
+
+                        figures.Add(figure);
+                        field[y, x] = figure;
                     }
-                    else if (i == 1 || i == field.GetLength(0) - 2)
-                        field[i, j] = new Pawn();
+                    else if (y == 1 || y == field.GetLength(0) - 2)
+                    {
+                        Pawn pawn = new Pawn();
+                        pawn.PostitionX = x;
+                        pawn.PostitionY = y;
+
+                        figures.Add(pawn);
+                        field[y, x] = pawn;
+                    }
             }
         }
     }
