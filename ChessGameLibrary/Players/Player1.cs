@@ -13,7 +13,7 @@ namespace ChessGameLibrary.Players
 
         public IFigure GetFigure(int y, int x)
         {
-            return figures?.First(f => f.points.PositionY == y && f.points.PositionX == x);
+            return figures?.FirstOrDefault(f => f.points.PositionY == y && f.points.PositionX == x);
         }
     }
 }

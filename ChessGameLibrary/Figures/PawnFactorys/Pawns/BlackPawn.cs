@@ -48,20 +48,24 @@ namespace ChessGameLibrary.Figures.Pawns
         {
             bool isExcecuted = false;
 
-            var motion = motions.First(m => m.PositionX == x && m.PositionY == y);
+            var motion = motions.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
 
             if(motion != null && (figures[motion.PositionY,motion.PositionX] is EmptyPoint))
             {
+                points.PositionY = motion.PositionY;
+                points.PositionX = motion.PositionX;
                 figures[motion.PositionY, motion.PositionX] = figures[points.PositionY, points.PositionX];
                 figures[points.PositionY, points.PositionX] = new EmptyPoint();
                 isExcecuted = true;
             }
 
-            var attack = attacks.First(m => m.PositionX == x && m.PositionY == y);
+            var attack = attacks.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
 
             if (attack != null && (figures[attack.PositionY, attack.PositionX] is IFigure && figures[attack.PositionY, attack.PositionX] is not EmptyPoint))
             {
-                figures[motion.PositionY, motion.PositionX] = figures[points.PositionY, points.PositionX];
+                points.PositionY = attack.PositionY;
+                points.PositionX = attack.PositionX;
+                figures[attack.PositionY, attack.PositionX] = figures[points.PositionY, points.PositionX];
                 figures[points.PositionY, points.PositionX] = new EmptyPoint();
                 isExcecuted = true;
             }

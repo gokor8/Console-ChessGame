@@ -89,7 +89,7 @@ namespace ChessGameLibrary
                 }
                 field += "\r\n";
                 for(int x = 0;x < fieldArray.GetLength(1); x++)
-                    field += "----";
+                    field += "---";
 
                 field += "\r\n";
             }

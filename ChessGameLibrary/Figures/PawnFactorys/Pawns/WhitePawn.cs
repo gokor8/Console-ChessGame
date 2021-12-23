@@ -1,4 +1,5 @@
 ﻿using ChessGameLibrary.FieldFactory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,21 +49,29 @@ namespace ChessGameLibrary.Figures.Pawns
         {
             bool isExcecuted = false;
 
-            var motion = motions.First(m => m.PositionX == x && m.PositionY == y);
+            var motion = motions?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
 
             if (motion != null && (figures[motion.PositionY, motion.PositionX] is EmptyPoint))
             {
                 figures[motion.PositionY, motion.PositionX] = figures[points.PositionY, points.PositionX];
                 figures[points.PositionY, points.PositionX] = new EmptyPoint();
+
+                points.PositionY = motion.PositionY;
+                points.PositionX = motion.PositionX;
+
                 isExcecuted = true;
             }
 
-            var attack = attacks.First(m => m.PositionX == x && m.PositionY == y);
+            var attack = attacks?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
 
             if (attack != null && (figures[attack.PositionY, attack.PositionX] is IFigure && figures[attack.PositionY, attack.PositionX] is not EmptyPoint))
             {
-                figures[motion.PositionY, motion.PositionX] = figures[points.PositionY, points.PositionX];
+                figures[attack.PositionY, attack.PositionX] = figures[points.PositionY, points.PositionX];
                 figures[points.PositionY, points.PositionX] = new EmptyPoint();
+
+                points.PositionY = attack.PositionY;
+                points.PositionX = attack.PositionX;
+
                 isExcecuted = true;
             }
 
