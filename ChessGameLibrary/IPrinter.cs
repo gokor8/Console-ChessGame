@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace ChessGameLibrary
 {
-    interface IPlayer
+    interface IPrinter
     {
-        string Name { get; set; }
-        List<IFigure> figures { get; set; }
-
-        public IFigure GetFigure(int y, int x);
+        void Print(string text);
+        string GetInsertedText();
     }
 }

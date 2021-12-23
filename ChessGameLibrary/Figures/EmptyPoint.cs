@@ -20,9 +20,9 @@ namespace ChessGameLibrary.Figures
             return new EmptyPoint();
         }
 
-        public void TryGoMotion()
+        public bool TryGoMotion(IFigure[,] figures = null)
         {
-            
+            return true;
         }
     }
 }

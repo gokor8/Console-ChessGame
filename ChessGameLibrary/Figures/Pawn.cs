@@ -11,22 +11,31 @@ namespace ChessGameLibrary.Figures
     {
         public Pawn(int[] triggres = default)
         {
-            PostitionX = 0;
-            PostitionY = 0;
+            points = new Point(0, 0);
         }
         public int[] triggers { get; private set; } = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
-        public int PostitionX { get; set; }
-        public int PostitionY { get; set; }
+        public Point points { get; set; }
         public char figureChar => '♙';
+
+        private bool _isFirstMotion = true;
+
+        private List<Point> _motions;
 
         public IFigure CreateColne()
         {
             return new Pawn(triggers);
         }
 
-        public void TryGoMotion()
+        public bool TryGoMotion(IFigure[,] figures, int x, int y)
         {
+            List<int> motions = new List<int>();
+            if (_isFirstMotion)
+                motions = new List<int>() { PostitionY + 2 };
+        }
 
+        private void GoHorizontalMotion(IFigure[,] figures, int x, int y)
+        {
+            
         }
     }
 }

@@ -13,20 +13,18 @@ namespace ChessGameLibrary.Figures
         {
             this.triggers = triggers;
 
-            PostitionX = 0;
-            PostitionY = 0;
+            points = new Point(0,0);
         }
         public int[] triggers { get; private set; }
         public char figureChar => '♖';
-        public int PostitionX { get; set; }
-        public int PostitionY { get; set; }
+        public Point points { get; set; }
 
         public IFigure CreateColne()
         {
             return new Elephant(triggers);
         }
 
-        public void TryGoMotion()
+        public bool TryGoMotion(IFigure[,] figures)
         {
             
         }

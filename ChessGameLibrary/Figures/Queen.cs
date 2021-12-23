@@ -13,11 +13,9 @@ namespace ChessGameLibrary.Figures
         {
             this.triggers = triggers;
 
-            PostitionX = 0;
-            PostitionY = 0;
+            points = new Point(0, 0);
         }
-        public int PostitionX { get; set; }
-        public int PostitionY { get; set; }
+        public Point points { get; set; }
         public int[] triggers { get; private set; }
         public char figureChar => '♕';
 
@@ -26,7 +24,7 @@ namespace ChessGameLibrary.Figures
             return new Queen(triggers);
         }
 
-        public void TryGoMotion()
+        public bool TryGoMotion(IFigure[,] figures, int x, int y)
         {
             
         }

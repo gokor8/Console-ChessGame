@@ -42,7 +42,7 @@ namespace GrishaChess_Test
         [Fact]
         public void PrintField_ReturnFullField()
         {
-            string field = gameBoard.PrintField();
+            string field = gameBoard.CollectField();
 
             Debug.WriteLine(field);
         }

@@ -10,5 +10,10 @@ namespace ChessGameLibrary.Players
     {
         public string Name { get; set; } = "Player 2";
         public List<IFigure> figures { get; set; } = new List<IFigure>();
+
+        public IFigure GetFigure(int y, int x)
+        {
+            return figures?.First(f => f.PostitionY == y && f.PostitionX == x);
+        }
     }
 }

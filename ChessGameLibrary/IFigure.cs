@@ -1,14 +1,14 @@
 ﻿using ChessGameLibrary.FieldFactory;
+using ChessGameLibrary.Figures;
 
 namespace ChessGameLibrary
 {
     public interface IFigure : ICloneableFigure
     {
         int[] triggers { get; }
-        int PostitionX { get; set; }
-        int PostitionY { get; set; }
+        Point points { get; set; }
         char figureChar { get; }
 
-        void TryGoMotion();
+        bool TryGoMotion(IFigure[,] figures, int x, int y);
     }
 }
