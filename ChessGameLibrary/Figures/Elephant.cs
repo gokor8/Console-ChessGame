@@ -24,9 +24,9 @@ namespace ChessGameLibrary.Figures
             return new Elephant(triggers);
         }
 
-        public bool TryGoMotion(IFigure[,] figures)
+        public bool TryGoMotion(IFigure[,] figures, int x, int y)
         {
-            
+            return true;
         }
     }
 }

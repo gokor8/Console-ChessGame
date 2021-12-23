@@ -24,8 +24,8 @@ namespace GrishaChess_Test
 
         public void InitializeGM_ReturnNotNullPlayer1()
         {
-            int elephantPositionY1 = gameBoard.player1.figures.First(f => f is Elephant).PostitionY;
-            int elephantPositionY2 = gameBoard.player1.figures.Last(f => f is Elephant).PostitionY;
+            int elephantPositionY1 = gameBoard.player1.figures.First(f => f is Elephant).points.PositionY;
+            int elephantPositionY2 = gameBoard.player1.figures.Last(f => f is Elephant).points.PositionY;
 
             Assert.True(gameBoard.player1.figures.Count == 16 && (elephantPositionY1 != elephantPositionY2));
         }
@@ -33,8 +33,8 @@ namespace GrishaChess_Test
         [Fact]
         public void InitializeGM_ReturnNotNullPlayer2()
         {
-            int elephantPositionX1 = gameBoard.player2.figures.First(f => f is Elephant).PostitionX;
-            int elephantPositionX2 = gameBoard.player2.figures.Last(f => f is Elephant).PostitionX;
+            int elephantPositionX1 = gameBoard.player2.figures.First(f => f is Elephant).points.PositionX;
+            int elephantPositionX2 = gameBoard.player2.figures.Last(f => f is Elephant).points.PositionX;
 
             Assert.True(gameBoard.player2.figures.Count == 16 && (elephantPositionX1 != elephantPositionX2));
         }

@@ -12,12 +12,15 @@ namespace ChessGameLibrary
         public Player1 player1 = new Player1();
         public Player2 player2 = new Player2();
         public IFigure[,] boardField { get; private set; }
-        IField gamefield;
+
+        ConsolePrinter printer = new ConsolePrinter();
+
+        IField gameField;
 
         public GameBoard()
         {
-            gamefield = new DefaultFactoryField().CreateField(player1.figures, player2.figures);
-            boardField = gamefield.GetField();
+            gameField = new DefaultFactoryField().CreateField(player1.figures, player2.figures);
+            boardField = gameField.GetField();
         }
 
         public GameBoard SetPlayersName()
@@ -36,13 +39,12 @@ namespace ChessGameLibrary
             int motion = 1;
             IPlayer currentPlayer = player1;
             int y = 0, x = 0;
-            ConsolePrinter printer = new ConsolePrinter();
 
             while (canPlay)
             {
-                CollectField();
+                printer.Print(CollectField());
 
-                if (motion % 2 == 0)
+                if (motion % 2 != 0)
                     currentPlayer = player1;
                 else
                     currentPlayer = player2;
@@ -61,25 +63,23 @@ namespace ChessGameLibrary
                 {
                     Console.WriteLine("Выберите куда вы сделаете ход: ");
                     CoordinatsChoosing(ref x, ref y, currentPlayer);
-                    WasMotion = currentFigure.TryGoMotion(boardField);
+                    WasMotion = currentFigure.TryGoMotion(boardField, x, y);
                 }
             }
         }
 
         void CoordinatsChoosing(ref int x, ref int y, in IPlayer currentPlayer)
         {
-            ConsolePrinter printer = new ConsolePrinter();
-
-            x = Convert.ToInt32(printer.GetInsertedText());
             printer.Print($"{currentPlayer.Name} Выберите координату X:");
-            y = Convert.ToInt32(printer.GetInsertedText());
+            x = Convert.ToInt32(printer.GetInsertedText());
             printer.Print($"{currentPlayer.Name} Выберите координату Y:");
+            y = Convert.ToInt32(printer.GetInsertedText());
         }
 
         public string CollectField()
         {
             string field = "";
-            var fieldArray = gamefield.GetField();
+            var fieldArray = boardField;
 
             for(int y = 0; y < fieldArray.GetLength(0); y++)
             {

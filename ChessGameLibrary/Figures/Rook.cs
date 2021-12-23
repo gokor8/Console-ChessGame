@@ -13,7 +13,7 @@ namespace ChessGameLibrary.Figures
         {
             this.triggers = triggers;
 
-            new Point(0,0);
+            points = new Point(0,0);
         }
         public Point points { get; set; }
         public int[] triggers { get; private set; }
@@ -26,7 +26,7 @@ namespace ChessGameLibrary.Figures
 
         public bool TryGoMotion(IFigure[,] figures, int x, int y)
         {
-
+            return true;
         }
     }
 }

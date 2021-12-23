@@ -33,12 +33,14 @@ namespace ChessGameLibrary.FieldFactory.Fields
                 new Horse(1,field.GetLength(1)-2)
             };
 
+            whiteFigures.Clear();
             whiteFigures.AddRange(new List<IFigure>()
             {
                 new King(4),
                 new Queen(3)
             });
 
+            blackFigures.Clear();
             blackFigures.AddRange(new List<IFigure>()
             {
                 new King(3),
@@ -68,9 +70,10 @@ namespace ChessGameLibrary.FieldFactory.Fields
 
                         if (x == 3 || x == 4)
                         {
-                            figure = figures.First(f => f.triggers.Any(t => t == x)).CreateColne();
+                            figure = figures.First(f => f.triggers.Any(t => t == x));
 
                             index = figures.FindIndex(s => s == figure);
+                            figure = figure.CreateColne();
                         }
                         else
                         {
@@ -78,8 +81,8 @@ namespace ChessGameLibrary.FieldFactory.Fields
                             figure = baseFigures.First(f => f.triggers.Any(t => t == x)).CreateColne();
                         }
 
-                        figure.PostitionX = x;
-                        figure.PostitionY = y;
+                        figure.points.PositionX = x;
+                        figure.points.PositionY = y;
 
                         if (index != -1)
                             figures[index] = figure;
@@ -91,8 +94,8 @@ namespace ChessGameLibrary.FieldFactory.Fields
                     else if (y == 1 || y == field.GetLength(0) - 2)
                     {
                         Pawn pawn = new Pawn();
-                        pawn.PostitionX = x;
-                        pawn.PostitionY = y;
+                        pawn.points.PositionX = x;
+                        pawn.points.PositionY = y;
 
                         figures.Add(pawn);
                         field[y, x] = pawn;

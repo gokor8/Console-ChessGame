@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ChessGameLibrary.Figures
 {
-    public class Pawn : IFigure
+    public abstract class Pawn
     {
-        public Pawn(int[] triggres = default)
+        public Pawn()
         {
             points = new Point(0, 0);
         }
@@ -17,25 +17,14 @@ namespace ChessGameLibrary.Figures
         public Point points { get; set; }
         public char figureChar => '♙';
 
-        private bool _isFirstMotion = true;
+        protected bool _isFirstMotion = true;
 
-        private List<Point> _motions;
+        protected List<Point> _motions;
 
-        public IFigure CreateColne()
-        {
-            return new Pawn(triggers);
-        }
+        protected List<Point> _attack;
 
-        public bool TryGoMotion(IFigure[,] figures, int x, int y)
-        {
-            List<int> motions = new List<int>();
-            if (_isFirstMotion)
-                motions = new List<int>() { PostitionY + 2 };
-        }
+        public abstract bool TryGoMotion(IFigure[,] figures, int x, int y);
 
-        private void GoHorizontalMotion(IFigure[,] figures, int x, int y)
-        {
-            
-        }
+
     }
 }

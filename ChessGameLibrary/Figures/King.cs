@@ -26,7 +26,7 @@ namespace ChessGameLibrary.Figures
 
         public bool TryGoMotion(IFigure[,] figures, int x, int y)
         {
-
+            return true;
         }
     }
 }
