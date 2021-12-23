@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChessGameLibrary.Figures
 {
-    public abstract class Pawn
+    public abstract class Pawn : IFigure
     {
         public Pawn()
         {
@@ -21,10 +21,10 @@ namespace ChessGameLibrary.Figures
 
         protected List<Point> _motions;
 
-        protected List<Point> _attack;
+        protected List<Point> _attacks;
+
+        public abstract IFigure CreateColne();
 
         public abstract bool TryGoMotion(IFigure[,] figures, int x, int y);
-
-
     }
 }

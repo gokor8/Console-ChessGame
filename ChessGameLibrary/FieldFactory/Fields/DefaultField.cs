@@ -1,4 +1,5 @@
 ﻿using ChessGameLibrary.Figures;
+using ChessGameLibrary.Figures.PawnFactorys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,16 +51,16 @@ namespace ChessGameLibrary.FieldFactory.Fields
 
         public IFigure[,] GetField()
         {
-            setFigures(whiteFigures, FiguresType.White);
-            setFigures(blackFigures, FiguresType.Black);
+            setFigures(whiteFigures, new WhitePawnFactory());
+            setFigures(blackFigures, new BlackPawnFactory());
             FillNullPixels(field);
 
             return field;
         }
 
-        private void setFigures(List<IFigure> figures, FiguresType figuresType)
+        private void setFigures(List<IFigure> figures, IPawnFactory pawnFactory)
         {
-            for (int y = (int)figuresType-2; y < (int)figuresType; y++)
+            for (int y = (int)pawnFactory.figuresType- 2; y < (int)pawnFactory.figuresType; y++)
             {
                 for (int x = 0; x < field.GetLength(1); x++)
                 {
@@ -93,7 +94,7 @@ namespace ChessGameLibrary.FieldFactory.Fields
                     }
                     else if (y == 1 || y == field.GetLength(0) - 2)
                     {
-                        Pawn pawn = new Pawn();
+                        Pawn pawn = pawnFactory.CreatePawn();
                         pawn.points.PositionX = x;
                         pawn.points.PositionY = y;
 
