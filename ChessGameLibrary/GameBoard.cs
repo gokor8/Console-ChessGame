@@ -1,5 +1,6 @@
 ﻿using ChessGameLibrary.FieldFactory;
 using ChessGameLibrary.FieldFactory.Fields;
+using ChessGameLibrary.Figures;
 using ChessGameLibrary.Players;
 using ChessGameLibrary.Printers;
 using System;
@@ -55,7 +56,7 @@ namespace ChessGameLibrary
                 {
                     printer.Print("Введите координаты");
                     CoordinatsChoosing(ref x, ref y, currentPlayer);
-                    currentFigure = currentPlayer.GetFigure(y, x);
+                    currentFigure = currentPlayer.GetFigure(new Point(x, y));
                 }
 
                 bool WasMotion = false;
@@ -63,7 +64,7 @@ namespace ChessGameLibrary
                 {
                     Console.WriteLine("Выберите куда вы сделаете ход: ");
                     CoordinatsChoosing(ref x, ref y, currentPlayer);
-                    WasMotion = currentFigure.TryGoMotion(boardField, x, y);
+                    WasMotion = currentFigure.TryGoMotion(boardField, currentPlayer, x, y);
                 }
             }
         }
@@ -83,6 +84,7 @@ namespace ChessGameLibrary
 
             for(int y = 0; y < fieldArray.GetLength(0); y++)
             {
+                field += y;
                 for(int x =0; x < fieldArray.GetLength(1); x++)
                 {
                     field += $"|{fieldArray[y,x].figureChar}|";

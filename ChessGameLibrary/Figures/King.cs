@@ -24,7 +24,7 @@ namespace ChessGameLibrary.Figures
             return new King(triggers);
         }
 
-        public bool TryGoMotion(IFigure[,] figures, int x, int y)
+        public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)
         {
             return true;
         }

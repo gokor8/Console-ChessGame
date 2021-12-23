@@ -19,7 +19,7 @@ namespace ChessGameLibrary.Figures
             return new EmptyPoint();
         }
 
-        public bool TryGoMotion(IFigure[,] figures = null, int x = 0, int y = 0)
+        public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)
         {
             return true;
         }

@@ -9,6 +9,6 @@ namespace ChessGameLibrary
         Point points { get; set; }
         char figureChar { get; }
 
-        bool TryGoMotion(IFigure[,] figures, int x, int y);
+        bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y);
     }
 }

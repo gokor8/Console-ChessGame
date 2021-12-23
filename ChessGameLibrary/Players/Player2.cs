@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessGameLibrary.Figures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,9 @@ namespace ChessGameLibrary.Players
         public string Name { get; set; } = "Player 2";
         public List<IFigure> figures { get; set; } = new List<IFigure>();
 
-        public IFigure GetFigure(int y, int x)
+        public IFigure GetFigure(Point point)
         {
-            return figures?.First(f => f.points.PositionY == y && f.points.PositionX == x);
+            return figures?.First(f => f.points.PositionY == point.PositionY && f.points.PositionX == point.PositionX);
         }
     }
 }

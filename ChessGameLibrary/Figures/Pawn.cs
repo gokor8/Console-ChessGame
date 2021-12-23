@@ -19,12 +19,39 @@ namespace ChessGameLibrary.Figures
 
         protected bool _isFirstMotion = true;
 
-        protected List<Point> _motions;
-
-        protected List<Point> _attacks;
+        protected List<Point> motions
+        {
+            get
+            {
+                return getMotions();
+            }
+        }
 
         public abstract IFigure CreateColne();
+        protected abstract List<Point> getMotions();
 
-        public abstract bool TryGoMotion(IFigure[,] figures, int x, int y);
+        public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)
+        {
+            bool isExcecuting = false;
+            Point action = null;
+
+            action = motions?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
+
+            if (action != null)
+                if (currentPlayer.GetFigure(action) == null)
+                {
+                    if (figures[action.PositionY, action.PositionX] is EmptyPoint
+                        || (figures[action.PositionY, action.PositionX] is IFigure && figures[action.PositionY, action.PositionX] is not EmptyPoint))
+                    {
+                        figures[action.PositionY, action.PositionX] = figures[points.PositionY, points.PositionX];
+                        figures[points.PositionY, points.PositionX] = new EmptyPoint();
+                        points.PositionY = action.PositionY;
+                        points.PositionX = action.PositionX;
+                        isExcecuting = true;
+                    }
+                }
+
+            return isExcecuting;
+        }
     }
 }
