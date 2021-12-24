@@ -50,6 +50,9 @@ namespace ChessGameLibrary
                 else
                     currentPlayer = player2;
 
+                if (!currentPlayer.figures.Exists(f => f is King))
+                    break;
+
                 IFigure currentFigure = null;
 
                 while (currentFigure == null)
@@ -66,7 +69,11 @@ namespace ChessGameLibrary
                     CoordinatsChoosing(ref x, ref y, currentPlayer);
                     WasMotion = currentFigure.TryGoMotion(boardField, currentPlayer, x, y);
                 }
+
+                motion++;
             }
+
+            Console.WriteLine($"Победил {currentPlayer}");
         }
 
         void CoordinatsChoosing(ref int x, ref int y, in IPlayer currentPlayer)
