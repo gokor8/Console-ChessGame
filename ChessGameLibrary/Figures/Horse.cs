@@ -36,9 +36,42 @@ namespace ChessGameLibrary.Figures
             playerFigures.Remove(this);
         }
 
+        private List<Point> getActions()
+        {
+            List<Point> motions = new List<Point>();
+
+            motions.Add(new Point(points.PositionX + 1, points.PositionY - 2));
+            motions.Add(new Point(points.PositionX - 1, points.PositionY - 2));
+            motions.Add(new Point(points.PositionX + 1, points.PositionY + 2));
+            motions.Add(new Point(points.PositionX - 1, points.PositionY + 2));
+            motions.Add(new Point(points.PositionX + 2, points.PositionY + 1));
+            motions.Add(new Point(points.PositionX + 2, points.PositionY - 2));
+            motions.Add(new Point(points.PositionX - 2, points.PositionY + 1));
+            motions.Add(new Point(points.PositionX - 2, points.PositionY - 2));
+
+            return motions;
+        }
+
         public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)
         {
-            return true;
+            bool Executed = false;
+            Point actualAction = getActions()?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
+
+            if (actualAction == null)
+                return Executed;
+
+            if (currentPlayer.GetFigure(actualAction) == null)
+            {
+                figures[actualAction.PositionY, actualAction.PositionX].Destroy();
+                figures[actualAction.PositionY, actualAction.PositionX] = figures[points.PositionY, points.PositionX];
+                figures[points.PositionY, points.PositionX] = new EmptyPoint();
+                points.PositionY = actualAction.PositionY;
+                points.PositionX = actualAction.PositionX;
+
+                Executed = true;
+            }
+
+            return Executed;
         }
     }
 }
