@@ -6,8 +6,8 @@ namespace GrishaChess
 {
     class Program
     {
-        public const int x = 100;//32;
-        public const int y = 27;
+        public const int x = 44;//32;
+        public const int y = 50;
         private 
         static void Main(string[] args)
         {

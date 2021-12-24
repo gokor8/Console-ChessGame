@@ -19,6 +19,27 @@ namespace ChessGameLibrary.Figures
         public char figureChar => '♖';
         public Point points { get; set; }
 
+        private List<Point> getActions()
+        {
+            List<Point> actions = new List<Point>();
+            for(int y = points.PositionY; y < 8; y++)
+            {
+                for(int x = points.PositionX; x < 8; x++)
+                    actions.Add(new Point(x,y));
+                for (int x = points.PositionX; x > 0; x--)
+                    actions.Add(new Point(x, y));
+            }
+            for (int y = points.PositionY; y > 0; y--)
+            {
+                for (int x = points.PositionX; x < 8; x++)
+                    actions.Add(new Point(x, y));
+                for (int x = points.PositionX; x > 0; x--)
+                    actions.Add(new Point(x, y));
+            }
+
+            return actions;
+        }
+
         public IFigure CreateColne()
         {
             return new Elephant(triggers);
@@ -26,7 +47,23 @@ namespace ChessGameLibrary.Figures
 
         public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)
         {
-            return true;
+            bool Executed = false;
+            Point actualAction = getActions()?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
+
+            if (actualAction == null)
+                return Executed;
+
+            if(currentPlayer.GetFigure(actualAction) == null)
+            {
+                figures[actualAction.PositionY, actualAction.PositionX] = figures[points.PositionY, points.PositionX];
+                figures[points.PositionY, points.PositionX] = new EmptyPoint();
+                points.PositionY = actualAction.PositionY;
+                points.PositionX = actualAction.PositionX;
+
+                Executed = true;
+            }
+
+            return Executed;
         }
     }
 }
