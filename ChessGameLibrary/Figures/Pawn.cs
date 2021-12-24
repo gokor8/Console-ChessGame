@@ -1,9 +1,5 @@
-﻿using ChessGameLibrary.FieldFactory;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChessGameLibrary.Figures
 {
@@ -17,9 +13,16 @@ namespace ChessGameLibrary.Figures
         public Point points { get; set; }
         public char figureChar => '♙';
 
-        protected bool _isFirstMotion = true;
+        protected bool isFirstMotion = true;
 
-        protected List<Point> motions
+        public List<Point> attacks
+        {
+            get
+            {
+                return getAttacks();
+            }
+        }
+        public List<Point> motions
         {
             get
             {
@@ -29,29 +32,35 @@ namespace ChessGameLibrary.Figures
 
         public abstract IFigure CreateColne();
         protected abstract List<Point> getMotions();
+        protected abstract List<Point> getAttacks();
 
         public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)
         {
-            bool isExcecuting = false;
-            Point action = null;
+            bool Executed = false;
+            Point actualAction = null;
+            
+            Point motion = motions?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
+            Point attack = attacks?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
 
-            action = motions?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
+            if(motion != null)
+                if (figures[motion.PositionY, motion.PositionX] is EmptyPoint)
+                    actualAction = motion;
+            if (attack != null)
+                 if (figures[attack.PositionY, attack.PositionX] is IFigure && figures[attack.PositionY, attack.PositionX] is not EmptyPoint)
+                    actualAction = attack;
 
-            if (action != null)
-                if (currentPlayer.GetFigure(action) == null)
-                {
-                    if (figures[action.PositionY, action.PositionX] is EmptyPoint
-                        || (figures[action.PositionY, action.PositionX] is IFigure && figures[action.PositionY, action.PositionX] is not EmptyPoint))
-                    {
-                        figures[action.PositionY, action.PositionX] = figures[points.PositionY, points.PositionX];
-                        figures[points.PositionY, points.PositionX] = new EmptyPoint();
-                        points.PositionY = action.PositionY;
-                        points.PositionX = action.PositionX;
-                        isExcecuting = true;
-                    }
-                }
+            if (actualAction != null && currentPlayer.GetFigure(actualAction) == null)
+            {
+                figures[actualAction.PositionY, actualAction.PositionX] = figures[points.PositionY, points.PositionX];
+                figures[points.PositionY, points.PositionX] = new EmptyPoint();
+                points.PositionY = actualAction.PositionY;
+                points.PositionX = actualAction.PositionX;
 
-            return isExcecuting;
+                isFirstMotion = false;
+                Executed = true;
+            }
+
+            return Executed;
         }
     }
 }

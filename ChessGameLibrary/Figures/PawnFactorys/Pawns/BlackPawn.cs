@@ -11,16 +11,24 @@ namespace ChessGameLibrary.Figures.Pawns
 
         }
 
+        protected override List<Point> getAttacks()
+        {
+            List<Point> attacks = new List<Point>();
+
+            attacks.Add(new Point(points.PositionX + 1, points.PositionY - 1));
+            attacks.Add(new Point(points.PositionX - 1, points.PositionY - 1));
+
+            return attacks;
+        }
+
         protected override List<Point> getMotions()
         {
             List<Point> motions = new List<Point>();
 
-            if (_isFirstMotion)
+            if (isFirstMotion)
                 motions.Add(new Point(points.PositionX, points.PositionY - 2));
 
             motions.Add(new Point(points.PositionX, points.PositionY - 1));
-            motions.Add(new Point(points.PositionX + 1, points.PositionY - 1));
-            motions.Add(new Point(points.PositionX - 1, points.PositionY - 1));
 
             return motions;
         }
