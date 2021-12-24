@@ -11,9 +11,9 @@ namespace ChessGameLibrary.Figures.PawnFactorys
     {
         public FiguresType figuresType { get; set; } = FiguresType.Black;
 
-        public Pawn CreatePawn()
+        public Pawn CreatePawn(List<IFigure> figures)
         {
-            return new BlackPawn();
+            return new BlackPawn(figures);
         }
     }
 }

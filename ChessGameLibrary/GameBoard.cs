@@ -79,7 +79,7 @@ namespace ChessGameLibrary
 
         public string CollectField()
         {
-            string field = "";
+            string field = " |0||1||2||3||4||5||6||7|\r\n";
             var fieldArray = boardField;
 
             for(int y = 0; y < fieldArray.GetLength(0); y++)

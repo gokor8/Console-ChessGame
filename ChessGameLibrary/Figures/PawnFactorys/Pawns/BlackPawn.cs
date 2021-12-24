@@ -6,7 +6,7 @@ namespace ChessGameLibrary.Figures.Pawns
 {
     class BlackPawn : Pawn, IFigure, ICloneableFigure
     {
-        public BlackPawn() : base()
+        public BlackPawn(List<IFigure> playerFigures) : base(playerFigures)
         {
 
         }
@@ -19,6 +19,10 @@ namespace ChessGameLibrary.Figures.Pawns
             attacks.Add(new Point(points.PositionX - 1, points.PositionY - 1));
 
             return attacks;
+        }
+        public override void Destroy()
+        {
+            playerFigures.Remove(this);
         }
 
         protected override List<Point> getMotions()
@@ -35,7 +39,7 @@ namespace ChessGameLibrary.Figures.Pawns
 
         public override IFigure CreateColne()
         {
-            return new BlackPawn();
+            return new BlackPawn(playerFigures);
         }
     }
 }

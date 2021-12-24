@@ -13,8 +13,6 @@ namespace ChessGameLibrary.FieldFactory.Fields
         public List<IFigure> whiteFigures { get; private set; }
         public List<IFigure> blackFigures { get; private set; }
 
-        List<IFigure> baseFigures;
-
         IFigure[,] field;
 
         public DefaultField(IFigure[,] field, List<IFigure> player1Figures, List<IFigure> player2Figures)
@@ -27,25 +25,18 @@ namespace ChessGameLibrary.FieldFactory.Fields
 
         void InitializeFigures()
         {
-            baseFigures = new List<IFigure>()
-            {
-                new Rook(2,field.GetLength(1)-3),
-                new Elephant(0,field.GetLength(1)-1),
-                new Horse(1,field.GetLength(1)-2)
-            };
-
             whiteFigures.Clear();
             whiteFigures.AddRange(new List<IFigure>()
             {
-                new King(4),
-                new Queen(3)
+                new King(whiteFigures,4),
+                new Queen(whiteFigures,3)
             });
 
             blackFigures.Clear();
             blackFigures.AddRange(new List<IFigure>()
             {
-                new King(3),
-                new Queen(4)
+                new King(blackFigures,3),
+                new Queen(blackFigures,4)
             });
         }
 
@@ -60,6 +51,13 @@ namespace ChessGameLibrary.FieldFactory.Fields
 
         private void setFigures(List<IFigure> figures, IPawnFactory pawnFactory)
         {
+            List<IFigure> baseFigures = new List<IFigure>()
+            {
+                new Rook(figures, 2,field.GetLength(1)-3),
+                new Elephant(figures, 0,field.GetLength(1)-1),
+                new Horse(figures, 1,field.GetLength(1)-2)
+            };
+
             for (int y = (int)pawnFactory.figuresType- 2; y < (int)pawnFactory.figuresType; y++)
             {
                 for (int x = 0; x < field.GetLength(1); x++)
@@ -94,7 +92,7 @@ namespace ChessGameLibrary.FieldFactory.Fields
                     }
                     else if (y == 1 || y == field.GetLength(0) - 2)
                     {
-                        Pawn pawn = pawnFactory.CreatePawn();
+                        Pawn pawn = pawnFactory.CreatePawn(figures);
                         pawn.points.PositionX = x;
                         pawn.points.PositionY = y;
 

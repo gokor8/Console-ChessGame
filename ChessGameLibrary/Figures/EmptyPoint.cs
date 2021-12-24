@@ -14,9 +14,16 @@ namespace ChessGameLibrary.Figures
 
         public Point points { get; set; } = new Point(0, 0);
 
+        public List<IFigure> playerFigures => throw new NotImplementedException();
+
         public IFigure CreateColne()
         {
             return new EmptyPoint();
+        }
+
+        public void Destroy()
+        {
+            
         }
 
         public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)

@@ -9,51 +9,40 @@ namespace ChessGameLibrary.Figures
 {
     public class Elephant : IFigure
     {
-        public Elephant(params int[] triggers)
-        {
-            this.triggers = triggers;
-
-            points = new Point(0,0);
-        }
         public int[] triggers { get; private set; }
         public char figureChar => '♖';
         public Point points { get; set; }
 
+        public List<IFigure> playerFigures { get; private set; }
+
+        public Elephant(List<IFigure> playerFigures, params int[] triggers)
+        {
+            this.triggers = triggers;
+
+            this.playerFigures = playerFigures;
+            points = new Point(0, 0);
+        }
+
+        public void Destroy()
+        {
+            playerFigures.Remove(this);
+        }
+
         private List<Point> getActions(IFigure[,] figures)
         {
             List<Point> actions = new List<Point>();
-            for(int y = points.PositionY+1; y < 8; y++)
-            {
-                actions.Add(new Point(points.PositionX, y));
-                if (figures[y, points.PositionX] is not EmptyPoint)
-                    break;
-            }
-            for (int y = points.PositionY-1; y >= 0; y--)
-            {
-                actions.Add(new Point(points.PositionX, y));
-                if (figures[y, points.PositionX] is not EmptyPoint)
-                    break;
-            }
-            for (int x = points.PositionX-1; x >= 0; x--)
-            {
-                actions.Add(new Point(x, points.PositionY));
-                if (figures[points.PositionY, x] is not EmptyPoint)
-                    break;
-            }
-            for (int x = points.PositionX+1; x < 8; x++)
-            {
-                actions.Add(new Point(x, points.PositionY));
-                if (figures[points.PositionY, x] is not EmptyPoint)
-                    break;
-
-            }
+            PositionSearcher searcher = new PositionSearcher(figures, actions);
+            searcher.SetUpY(points.PositionX, points.PositionY + 1);
+            searcher.SetDownY(points.PositionX, points.PositionY - 1);
+            searcher.SetRightX(points.PositionX + 1, points.PositionY);
+            searcher.SetLeftX(points.PositionX - 1, points.PositionY);
 
             return actions;
         }
 
         public IFigure CreateColne()
         {
-            return new Elephant(triggers);
+            return new Elephant(playerFigures, triggers);
         }
 
         public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)
@@ -66,6 +55,7 @@ namespace ChessGameLibrary.Figures
 
             if(currentPlayer.GetFigure(actualAction) == null)
             {
+                figures[actualAction.PositionY, actualAction.PositionX].Destroy();
                 figures[actualAction.PositionY, actualAction.PositionX] = figures[points.PositionY, points.PositionX];
                 figures[points.PositionY, points.PositionX] = new EmptyPoint();
                 points.PositionY = actualAction.PositionY;

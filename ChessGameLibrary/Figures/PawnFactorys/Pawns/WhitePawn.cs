@@ -7,7 +7,7 @@ namespace ChessGameLibrary.Figures.Pawns
 {
     class WhitePawn : Pawn, IFigure, ICloneableFigure
     {
-        public WhitePawn() : base()
+        public WhitePawn(List<IFigure> playerFigures) : base(playerFigures)
         {
 
         }
@@ -20,6 +20,11 @@ namespace ChessGameLibrary.Figures.Pawns
             attacks.Add(new Point(points.PositionX - 1, points.PositionY + 1));
 
             return attacks;
+        }
+
+        public override void Destroy()
+        {
+            playerFigures.Remove(this);
         }
 
         protected override List<Point> getMotions()
@@ -36,7 +41,7 @@ namespace ChessGameLibrary.Figures.Pawns
 
         public override IFigure CreateColne()
         {
-            return new WhitePawn();
+            return new WhitePawn(playerFigures);
         }
 
     }
