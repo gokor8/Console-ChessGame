@@ -37,6 +37,8 @@ namespace ChessGameLibrary.Figures
             PositionSearcher searcher = new PositionSearcher(figures, actions);
             searcher.SetUpRightXY(points.PositionX, points.PositionY);
             searcher.SetUpLeftXY(points.PositionX, points.PositionY);
+            searcher.SetDownLeftXY(points.PositionX, points.PositionY);
+            searcher.SetDownRightXY(points.PositionX, points.PositionY);
 
             return actions;
         }

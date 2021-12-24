@@ -75,10 +75,38 @@ namespace ChessGameLibrary.Figures
             for (int y = figureY + 1; y < 8; y++)
             {
                 int clearY = y - figureY;
-                if(figureX - clearY > 0)
+                if(figureX - clearY >= 0)
                 { 
                     actions.Add(new Point(figureX - clearY, y));
                     if (figures[y, figureX - clearY] is not EmptyPoint)
+                        break;
+                }
+            }
+        }
+
+        public void SetDownLeftXY(int figureX, int figureY)
+        {
+            for (int y = figureY - 1; y >= 0; y--)
+            {
+                int clearY = figureY - y;
+                if (figureX - clearY >= 0)
+                {
+                    actions.Add(new Point(figureX - clearY, y));
+                    if (figures[y, figureX - clearY] is not EmptyPoint)
+                        break;
+                }
+            }
+        }
+
+        public void SetDownRightXY(int figureX, int figureY)
+        {
+            for (int y = figureY - 1; y >= 0; y--)
+            {
+                int clearY = figureY - y;
+                if (figureX + clearY < 8)
+                {
+                    actions.Add(new Point(figureX + clearY, y));
+                    if (figures[y, figureX + clearY] is not EmptyPoint)
                         break;
                 }
             }
