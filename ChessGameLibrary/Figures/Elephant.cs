@@ -19,22 +19,33 @@ namespace ChessGameLibrary.Figures
         public char figureChar => '♖';
         public Point points { get; set; }
 
-        private List<Point> getActions()
+        private List<Point> getActions(IFigure[,] figures)
         {
             List<Point> actions = new List<Point>();
-            for(int y = points.PositionY; y < 8; y++)
+            for(int y = points.PositionY+1; y < 8; y++)
             {
-                for(int x = points.PositionX; x < 8; x++)
-                    actions.Add(new Point(x,y));
-                for (int x = points.PositionX; x > 0; x--)
-                    actions.Add(new Point(x, y));
+                actions.Add(new Point(points.PositionX, y));
+                if (figures[y, points.PositionX] is not EmptyPoint)
+                    break;
             }
-            for (int y = points.PositionY; y > 0; y--)
+            for (int y = points.PositionY-1; y >= 0; y--)
             {
-                for (int x = points.PositionX; x < 8; x++)
-                    actions.Add(new Point(x, y));
-                for (int x = points.PositionX; x > 0; x--)
-                    actions.Add(new Point(x, y));
+                actions.Add(new Point(points.PositionX, y));
+                if (figures[y, points.PositionX] is not EmptyPoint)
+                    break;
+            }
+            for (int x = points.PositionX-1; x >= 0; x--)
+            {
+                actions.Add(new Point(x, points.PositionY));
+                if (figures[points.PositionY, x] is not EmptyPoint)
+                    break;
+            }
+            for (int x = points.PositionX+1; x < 8; x++)
+            {
+                actions.Add(new Point(x, points.PositionY));
+                if (figures[points.PositionY, x] is not EmptyPoint)
+                    break;
+
             }
 
             return actions;
@@ -48,7 +59,7 @@ namespace ChessGameLibrary.Figures
         public bool TryGoMotion(IFigure[,] figures, IPlayer currentPlayer, int x, int y)
         {
             bool Executed = false;
-            Point actualAction = getActions()?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
+            Point actualAction = getActions(figures)?.FirstOrDefault(m => m.PositionX == x && m.PositionY == y);
 
             if (actualAction == null)
                 return Executed;
