@@ -17,5 +17,10 @@ namespace ChessGameLibrary.Printers
         {
             return Console.ReadLine();
         }
+
+        public ConsoleKeyInfo GetInsertedKey()
+        {
+            return Console.ReadKey();
+        }
     }
 }

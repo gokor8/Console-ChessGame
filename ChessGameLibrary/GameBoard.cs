@@ -57,7 +57,9 @@ namespace ChessGameLibrary
 
                 while (currentFigure == null)
                 {
+                    printer.Print("------------------");
                     printer.Print("Введите координаты");
+                    printer.Print("------------------\r\n");
                     CoordinatsChoosing(ref x, ref y, currentPlayer);
                     currentFigure = currentPlayer.GetFigure(new Point(x, y));
                 }
@@ -65,7 +67,9 @@ namespace ChessGameLibrary
                 bool WasMotion = false;
                 while (WasMotion == false)
                 {
-                    Console.WriteLine("Выберите куда вы сделаете ход: ");
+                    printer.Print("-----------------------------");
+                    printer.Print("Выберите куда вы сделаете ход");
+                    printer.Print("-----------------------------\r\n");
                     CoordinatsChoosing(ref x, ref y, currentPlayer);
                     WasMotion = currentFigure.TryGoMotion(boardField, currentPlayer, x, y);
                 }
@@ -73,15 +77,29 @@ namespace ChessGameLibrary
                 motion++;
             }
 
-            Console.WriteLine($"Победил {currentPlayer}");
+            Console.WriteLine($"Победил {currentPlayer.Name}");
         }
 
         void CoordinatsChoosing(ref int x, ref int y, in IPlayer currentPlayer)
         {
-            printer.Print($"{currentPlayer.Name} Выберите координату X:");
-            x = Convert.ToInt32(printer.GetInsertedText());
-            printer.Print($"{currentPlayer.Name} Выберите координату Y:");
-            y = Convert.ToInt32(printer.GetInsertedText());
+            char key;
+            printer.Print($"{currentPlayer.Name} Выберите координату X: ");
+            key = printer.GetInsertedKey().KeyChar;
+
+            if (char.IsDigit(key))
+                x = int.Parse(key.ToString());
+            else
+                x = -1;
+            printer.Print("\r\n");
+
+            printer.Print($"{currentPlayer.Name} Выберите координату Y: ");
+            key = printer.GetInsertedKey().KeyChar;
+            if (char.IsDigit(key))
+                y = int.Parse(key.ToString());
+            else
+                y = -1;
+
+            printer.Print("\r\n");
         }
 
         public string CollectField()
