@@ -1,6 +1,5 @@
 ﻿using ChessGameLibrary.FieldFactory;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ChessGameLibrary.Figures.Pawns
 {

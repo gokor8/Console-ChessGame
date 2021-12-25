@@ -12,16 +12,16 @@ namespace ChessGameLibrary
         bool canPlay = true;
         public Player1 player1 = new Player1();
         public Player2 player2 = new Player2();
+
+        IField gameFactoryField;
         public IFigure[,] boardField { get; private set; }
 
         ConsolePrinter printer = new ConsolePrinter();
 
-        IField gameField;
-
         public GameBoard()
         {
-            gameField = new DefaultFactoryField().CreateField(player1.figures, player2.figures);
-            boardField = gameField.GetField();
+            gameFactoryField = new DefaultFactoryField().CreateField(player1.figures, player2.figures);
+            boardField = gameFactoryField.GetField();
         }
 
         public GameBoard SetPlayersName()
@@ -37,21 +37,23 @@ namespace ChessGameLibrary
 
         public void PlayGame()
         {
-            int motion = 1;
+            int motionCount = 1;
             IPlayer currentPlayer = player1;
-            int y = 0, x = 0;
 
             while (canPlay)
             {
-                printer.Print(CollectField());
+                int y = 0, x = 0;
 
-                if (motion % 2 != 0)
-                    currentPlayer = player1;
-                else
-                    currentPlayer = player2;
+                printer.Print(MakeLayout());
+                printer.Print($"Число ходов: {motionCount - 1}");
 
                 if (!currentPlayer.figures.Exists(f => f is King))
                     break;
+
+                if (motionCount % 2 != 0)
+                    currentPlayer = player1;
+                else
+                    currentPlayer = player2;
 
                 IFigure currentFigure = null;
 
@@ -74,7 +76,7 @@ namespace ChessGameLibrary
                     WasMotion = currentFigure.TryGoMotion(boardField, currentPlayer, x, y);
                 }
 
-                motion++;
+                motionCount++;
             }
 
             Console.WriteLine($"Победил {currentPlayer.Name}");
@@ -102,9 +104,10 @@ namespace ChessGameLibrary
             printer.Print("\r\n");
         }
 
-        public string CollectField()
+        string MakeLayout()
         {
             string field = " |0||1||2||3||4||5||6||7|\r\n";
+                  field += " ------------------------\r\n";
             var fieldArray = boardField;
 
             for(int y = 0; y < fieldArray.GetLength(0); y++)
